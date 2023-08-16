@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Get ideas for your next ENS domain">
-  <meta property="og:title" content="ENS Name Generator">
-  <meta property="og:description" content="Get ideas for your next ENS domain">
-  <meta property="og:image" content="https://raw.githubusercontent.com/ensracer/ideas/main/ens.jpg">
-  <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/ensracer/ideas/main/ens.jpg">
-  <meta property="og:image:alt" content="ENS Name Generator">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ENS Name Generator">
-  <meta name="twitter:description" content="Get ideas for your next ENS domain">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/ensracer/ideas/main/ens.jpg">
-  <meta name="twitter:image:alt" content="ENS Name Generator">
-  <title>ENS Name Generator</title>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ENS Name Generator</title>
@@ -248,47 +234,68 @@
 
   <script>
     const termsInput = document.getElementById("terms");
-    const wordLengthInput = document.getElementById("word-length");
-    const generateButton = document.getElementById("generate");
-    const resultTextarea = document.getElementById("result");
+const wordLengthInput = document.getElementById("word-length");
+const generateButton = document.getElementById("generate");
+const resultTextarea = document.getElementById("result");
 
-    generateButton.addEventListener("click", generateNames);
+generateButton.addEventListener("click", generateNames);
 
-    async function generateNames() {
-      const selectedTerm = termsInput.value;
-      const selectedWordLength = wordLengthInput.value;
-      
-      if (selectedTerm) {
-        try {
-          const generatedNames = await generateENSNames(selectedTerm, selectedWordLength);
-          resultTextarea.value = generatedNames.join("\n");
-          generateButton.textContent = "Generate More";
-        } catch (error) {
-          console.error("Error generating names:", error);
-        }
-      }
+async function generateNames() {
+  const selectedTerm = termsInput.value;
+  const selectedWordLength = wordLengthInput.value;
+
+  if (selectedTerm) {
+    try {
+      const generatedNames = await generateENSNames(selectedTerm, selectedWordLength);
+      resultTextarea.value = generatedNames.join("\n");
+      generateButton.textContent = "Generate More";
+    } catch (error) {
+      console.error("Error generating names:", error);
     }
+  }
+}
 
-    async function fetchExternalWords(length) {
-      try {
-        const response = await fetch(`https://random-word-api.herokuapp.com/word?number=10&length=${length}`);
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error("Error fetching external words:", error);
-        return ["fallback1", "fallback2", "fallback3"]; // Fallback words in case of error
-      }
-    }
+async function fetchExternalWords(length) {
+  try {
+    const response = await fetch(`https://random-word-api.herokuapp.com/word?number=10&length=${length}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching external words:", error);
+    return ["fallback1", "fallback2", "fallback3"]; // Fallback words in case of error
+  }
+}
 
-    async function generateENSNames(prefix, wordLength) {
-      const ensNames = [];
-      const externalWords = await fetchExternalWords(wordLength);
-      for (const externalWord of externalWords) {
-        const generatedName = `${prefix}${externalWord}.eth`;
-        ensNames.push(generatedName);
-      }
-      return ensNames;
+async function generateRandomCharacters(length) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomString = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters[randomIndex];
+  }
+  return randomString;
+}
+
+async function generateENSNames(prefix, wordLength) {
+  const ensNames = [];
+  
+  if (wordLength === "1") {
+    for (let i = 0; i < 10; i++) {
+      const randomCharacter = await generateRandomCharacters(1);
+      const generatedName = `${prefix}${randomCharacter}.eth`;
+      ensNames.push(generatedName);
     }
+  } else {
+    const externalWords = await fetchExternalWords(wordLength);
+    for (const externalWord of externalWords) {
+      const generatedName = `${prefix}${externalWord}.eth`;
+      ensNames.push(generatedName);
+    }
+  }
+  
+  return ensNames;
+}
+
   </script>
 
 </body>
