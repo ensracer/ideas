@@ -68,7 +68,14 @@
             cursor: pointer;
         }
 
-        div {
+        a#check:hover, a#support:hover, button:hover, button#copyButton:hover {
+            background-color: #4a4e53;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        div.result {
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
@@ -140,7 +147,6 @@ footer a {
     overflow: hidden; /* Ensures the modal content stays within it */
     outline: 0;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-opaque background */
-    width: 100%;
 }
 
 .modal-content {
@@ -150,6 +156,7 @@ footer a {
     margin: 10% auto; /* Centered vertically */
     padding: 20px;
     border-radius: 7px; /* Rounded borders */
+    width:600px;
 
 }
 
@@ -181,6 +188,21 @@ p#thanks {
     line-height:1.5em;
 }
 
+/* Share on Twitter Button Style */
+.modal-content a {
+    display: inline-block;
+    padding: 8px 20px;
+    margin-top: 20px;
+    background-color: #1DA1F2; /* Twitter's primary color */
+    color: #FFFFFF; /* White text color */
+    border-radius: 3px; /* Rounded edges */
+    text-decoration: none; /* Remove default link underline */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.modal-content a:hover {
+    background-color: #0c85d0; /* Slightly darker shade for hover effect */
+}
 
 </style>
 </head>
@@ -205,7 +227,7 @@ p#thanks {
   <button type="submit">Generate Ideas</button>
 </form>
 
-<div>
+<div class="result">
 <textarea id="result" rows="10" cols="50"></textarea>
 <button id="copyButton">Copy to Clipboard</button>
 <br>
@@ -307,7 +329,7 @@ document.getElementById("copyButton").addEventListener("click", function() {
 
 
 <br>
-<footer>Created By 🐸 FrogFrens.Eth <a href="#footer">Support The Maker</a></footer>
+<footer>Created By 🐸 FrogFrens.Eth <a id="support" href="#footer">Support The Maker</a></footer>
 <script>
 let modal = document.getElementById("supportModal");
 
