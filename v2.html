@@ -214,6 +214,8 @@ p#thanks {
 }
 
 </style>
+
+<link rel="preload" href="any.json" as="fetch">
 </head>
 <body>
 <header>
@@ -232,6 +234,8 @@ p#thanks {
     <option value="2-8">Two Words (8 Letters)</option>
     <option value="2-8">Two Words (9 Letters)</option>
     <option value="2-any">Two Words (Any Length)</option>
+    <option value="any">Any Word 🔥</option>
+    <option value="names">Names</option>
   </select>
   <button type="submit">Generate Ideas</button>
 </form>
@@ -302,6 +306,20 @@ document.getElementById("ideaForm").addEventListener("submit", function(event) {
                     results.push((getRandomWord(words1) + getRandomWord(words2)).toUpperCase() + ".ETH");
                 }
                 break;
+            
+                case "names":
+                    let namesWords = await fetchData("fn.json");
+                    for (let i = 0; i < 20; i++) {
+                        results.push(getRandomWord(namesWords).toUpperCase() + ".ETH");
+                    }
+                    break;
+
+                    case "any":
+                    let anyWords = await fetchData("any.json");
+                    for (let i = 0; i < 20; i++) {
+                        results.push(getRandomWord(anyWords).toUpperCase() + ".ETH");
+                    }
+                    break;
 
             default:
                 console.error("Invalid ideaType");
@@ -339,7 +357,7 @@ document.getElementById("copyButton").addEventListener("click", function() {
 
 
 <br>
-<footer>Created By 🐸 FrogFrens.Eth <a id="support" href="#footer">Support The Maker</a></footer>
+<footer><small>Created By 🐸 FrogFrens.Eth <a id="support" href="#footer">Support The Maker</a></small></footer><br>
 <script>
 let modal = document.getElementById("supportModal");
 
