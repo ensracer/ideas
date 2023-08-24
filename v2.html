@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free ENS Domain Idea Generator Tool 🐸</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Free ENS Domain Idea Generator Tool">
+    <meta property="og:description" content="Find your next ENS domain name with this free tool from FrogFrens.eth">
+    <meta property="og:image" content="https://raw.githubusercontent.com/ensracer/ideas/main/ens-v2.jpg">
+    <meta property="og:url" content="https://ensracer.github.io/ideas/v2">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:title" content="Free ENS Domain Idea Generator Tool">
+    <meta name="twitter:description" content="Find your next ENS domain name with this free tool from FrogFrens.eth">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/ensracer/ideas/main/ens-v2.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Other Meta Tags -->
+    <meta name="description" content="Find your next ENS domain name with this free tool from FrogFrens.eth">
+
+<style>
+
+   /* Reset some default styling */
+   body, h1, h2, p, select, button {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #2e3e4e;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label, select, button {
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #2e3e4e;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        div {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            resize: vertical;
+        }
+
+        #copyButton {
+            margin-top: 10px;
+            background-color: #2e3e4e;
+            color: #ffffff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        a {
+            color: #2e3e4e;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+#check {
+        margin-top: 10px;
+        background-color: #4caf50;
+        color: #ffffff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+footer a {
+        margin-top: 20px;
+        background-color: #f39c12;
+        color: #ffffff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+/* Modal Styling */
+
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; /* Full screen */
+    z-index: 1050; /* Higher than other elements */
+    overflow: hidden; /* Ensures the modal content stays within it */
+    outline: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-opaque background */
+    width: 100%;
+}
+
+.modal-content {
+    position: relative;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background-color: #fff; /* White background color */
+    margin: 10% auto; /* Centered vertically */
+    padding: 20px;
+    border-radius: 7px; /* Rounded borders */
+
+}
+
+.close-button {
+    position: absolute;
+    top: 5px; /* Position it in the top right corner */
+    right: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* This will keep the scroll bar even when modal is open, preventing shifting */
+body.modal-open {
+    overflow-y: scroll;
+    padding-right: calc(100vw - 100%);
+}
+
+p#thanks {
+    line-height:1.5em;
+}
+
+
+</style>
+</head>
+<body>
+<header>
+    <h1>Free ENS Domain Idea Generator Tool</h1>
+</header>
+
+<form id="ideaForm">
+  <label for="ideas">Choose An Option To Generate An Idea</label>
+  <select id="ideas" name="ideas">
+    <option value="1-3">One Word (3 Letters)</option>
+    <option value="1-4">One Word (4 Letters)</option>
+    <option value="1-5">One Word (5 Letters)</option>
+    <option value="1-6">One Word (6 Letters)</option>
+    <option value="2-6">Two Words (6 Letters)</option>
+    <option value="2-7">Two Words (7 Letters)</option>
+    <option value="2-8">Two Words (8 Letters)</option>
+    <option value="2-8">Two Words (9 Letters)</option>
+    <option value="2-any">Two Words (Any Length)</option>
+  </select>
+  <button type="submit">Generate Ideas</button>
+</form>
+
+<div>
+<textarea id="result" rows="10" cols="50"></textarea>
+<button id="copyButton">Copy to Clipboard</button>
+<br>
+<a href="https://ens.vision/tools?utm_source=frogfrens.eth" target="_blank" id="check">Check availability</a>
+
+</div>
+
+<script>
+document.getElementById("ideaForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // prevent the form from actually submitting
+
+    const ideaType = document.getElementById("ideas").value;
+
+    async function fetchData(fileName) {
+        const response = await fetch(fileName);
+        return response.json();
+    }
+
+    function getRandomWord(wordsArray) {
+        return wordsArray[Math.floor(Math.random() * wordsArray.length)];
+    }
+
+    async function generateIdeas() {
+        let results = [];
+        switch (ideaType) {
+            case "1-3":
+            case "1-4":
+            case "1-5":
+                let singleWords = await fetchData(`${ideaType.charAt(2)}.json`);
+                for (let i = 0; i < 20; i++) {
+                    results.push(getRandomWord(singleWords).toUpperCase() + ".ETH");
+                }
+                break;
+
+            case "2-6":
+            case "2-7":
+            case "2-8":
+                let targetLength = Number(ideaType.charAt(2));
+                for (let i = 0; i < 20; i++) {
+                    let firstWordLength;
+                    let secondWordLength;
+                    do {
+                        firstWordLength = Math.floor(Math.random() * targetLength) + 1;
+                        secondWordLength = targetLength - firstWordLength;
+                    } while (firstWordLength < 2 || secondWordLength < 2 || firstWordLength > 5 || secondWordLength > 5); // Ensure lengths are between 2 and 5
+
+                    let firstWords = await fetchData(`${firstWordLength}.json`);
+                    let secondWords = await fetchData(`${secondWordLength}.json`);
+
+                    results.push((getRandomWord(firstWords) + getRandomWord(secondWords)).toUpperCase() + ".ETH");
+                }
+                break;
+
+            case "2-any":
+                for (let i = 0; i < 20; i++) {
+                    let file1 = Math.floor(Math.random() * 4) + 2; // 2.json to 5.json
+                    let file2 = Math.floor(Math.random() * 4) + 2; // 2.json to 5.json
+
+                    let words1 = await fetchData(`${file1}.json`);
+                    let words2 = await fetchData(`${file2}.json`);
+
+                    results.push((getRandomWord(words1) + getRandomWord(words2)).toUpperCase() + ".ETH");
+                }
+                break;
+
+            default:
+                console.error("Invalid ideaType");
+                break;
+        }
+
+        document.getElementById("result").value = results.join("\n");
+    }
+
+    generateIdeas();
+});
+
+</script>
+
+<script>
+document.getElementById("copyButton").addEventListener("click", function() {
+    const textarea = document.getElementById("result");
+    textarea.select(); // Select the content of the textarea
+    document.execCommand("copy"); // Copy the selected content
+    alert("Results copied to clipboard. Now search in bulk on ENS Vision"); // Optional feedback for the user
+});
+
+
+</script>
+
+<!-- Modal Popup -->
+<div id="supportModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Support The Maker</h2><br>
+        <p id="thanks">Thanks for using my ENS Idea Generator Tool. If you would like to support me, you can send ETH or NFTs to <strong><span style="color:darkmagenta">FrogFrens.eth</span></strong>. Or, feel free to share the tool with your friends. Thank you for your support once again.</p>
+        <a href="https://twitter.com/share?url=https://ensracer.github.io/ideas/v2&text=Check%20out%20this%20cool%20ENS%20Idea%20Generator%20Tool!" target="_blank">Share on Twitter</a>
+    </div>
+</div>
+
+
+<br>
+<footer>Created By 🐸 FrogFrens.Eth <a href="#footer">Support The Maker</a></footer>
+<script>
+let modal = document.getElementById("supportModal");
+
+// Get the link that opens the modal
+let btn = document.querySelector("a[href='#footer']");
+
+// Get the <span> element that closes the modal
+let span = document.getElementsByClassName("close-button")[0];
+
+// When the user clicks on the link, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+</body>
+</html>
