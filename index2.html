@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ENS Idea Generator 🐸 FrogFrens.Eth</title>
+</head>
+<body>
+<header>
+</header>
+
+<form id="ideaForm">
+  <label for="ideas">Choose An Option To Generate An Idea</label>
+  <select id="ideas" name="ideas">
+    <option value="1-3">One Word (3 Letters)</option>
+    <option value="1-4">One Word (4 Letters)</option>
+    <option value="1-5">One Word (5 Letters)</option>
+    <option value="1-6">One Word (6 Letters)</option>
+    <option value="2-6">Two Words (6 Letters)</option>
+    <option value="2-7">Two Words (7 Letters)</option>
+    <option value="2-8">Two Words (8 Letters)</option>
+    <option value="2-8">Two Words (9 Letters)</option>
+    <option value="2-any">Two Words (Any Length)</option>
+  </select>
+  <button type="submit">Generate Ideas</button>
+</form>
+
+
+
+<div>
+<textarea id="result" rows="10" cols="50"></textarea>
+</div>
+
+<script>
+  document.getElementById("ideaForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    var selectedOption = document.getElementById("ideas").value;
+    var resultTextarea = document.getElementById("result");
+    resultTextarea.value = ""; // Clear previous results
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var words = JSON.parse(xhr.responseText);
+
+          if (selectedOption === "1-3" || selectedOption === "1-4" || selectedOption === "1-5" || selectedOption === "1-6") {
+            for (var i = 0; i < 20; i++) {
+              var randomWord = words[Math.floor(Math.random() * words.length)];
+              resultTextarea.value += randomWord + "\n";
+            }
+          } else if (selectedOption === "2-6") {
+            for (var i = 0; i < 20; i++) {
+              var randomWord1 = words[Math.floor(Math.random() * words.length)];
+              var randomWord2 = words[Math.floor(Math.random() * words.length)];
+              resultTextarea.value += randomWord1 + " " + randomWord2 + "\n";
+            }
+          } else if (selectedOption === "2-7" || selectedOption === "2-8" || selectedOption === "2-9" || selectedOption === "2-any") {
+            var jsonFiles = ["3.json", "4.json", "5.json", "6.json"];
+            for (var i = 0; i < 20; i++) {
+              var randomFileIndex1 = Math.floor(Math.random() * jsonFiles.length);
+              var randomFileIndex2 = Math.floor(Math.random() * jsonFiles.length);
+              var randomWord1 = words[randomFileIndex1][Math.floor(Math.random() * words[randomFileIndex1].length)];
+              var randomWord2 = words[randomFileIndex2][Math.floor(Math.random() * words[randomFileIndex2].length)];
+              var concatenatedWords = randomWord1 + " " + randomWord2;
+              if ((selectedOption === "2-7" && concatenatedWords.length === 7) ||
+                  (selectedOption === "2-8" && concatenatedWords.length === 8) ||
+                  (selectedOption === "2-9" && concatenatedWords.length === 9) ||
+                  selectedOption === "2-any") {
+                resultTextarea.value += concatenatedWords + "\n";
+              } else {
+                i--; // Retry to get a valid result
+              }
+            }
+          }
+        } else {
+          resultTextarea.value = "Error fetching data.";
+        }
+      }
+    };
+
+    xhr.open("GET", selectedOption.split("-")[1] + ".json", true);
+    xhr.send();
+  });
+</script>
+
+
+<footer>Created By 🐸 FrogFrens.Eth</footer>
+</body>
+</html>
