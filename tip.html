@@ -166,7 +166,7 @@
           .then(response => response.json())
           .then(data => {
             const quote = data.content;
-            const gmQuoteMessage = `GM - "${quote}" + $tip @tipcoineth`;
+            const gmQuoteMessage = `GM - "${quote}" $tip @tipcoineth`;
             outputElement.value = gmQuoteMessage;
           });
       }
