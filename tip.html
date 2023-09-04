@@ -1,24 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Multi-Purpose Tool</title>
+  <title>$TIP Maker Tool</title>
+  <meta name="description" content="Create and share positive messages with $TIP Maker Tool. Generate messages, quotes, and support the maker." />
+  <meta property="og:title" content="$TIP Maker Tool" />
+  <meta property="og:description" content="Create and share positive messages with $TIP Maker Tool. Generate messages, quotes, and support the maker." />
+  <meta property="og:image" content="https://ensracer.github.io/ideas/tip.jpg" />
+  <meta property="og:url" content="https://ensracer.github.io/ideas/tip" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="$TIP Maker Tool" />
+  <meta name="twitter:description" content="Create and share positive messages with $TIP Maker Tool. Generate messages, quotes, and support the maker." />
+  <meta name="twitter:image" content="https://ensracer.github.io/ideas/tip.jpg" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    select, button, textarea {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    select {
+      background-color: white;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    textarea {
+      width: 100%;
+      max-width: 360px;
+      height: 150px;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+    }
+    a button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    a button:hover {
+      background-color: #c0392b;
+    }
+
+        .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 400px;
+      text-align: center;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: black;
+    }
+
+      #supportMakerBtn {
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #supportMakerBtn:hover {
+      background-color: #219653;
+    }
+  </style>
 </head>
 <body>
-  <h1>Multi-Purpose Tool</h1>
-
-  <h2>Twitter Feed</h2>
-  <iframe src="https://twitter.com/search?q=%24tip&src=typed_query&f=live" width="100%" height="400"></iframe>
+  <h1>$TIP Maker Tool</h1>
 
   <h2>Generate Messages</h2>
   <select id="messageType">
+    <option value="generic">Select Message Type</option>
     <option value="generic">Generic</option>
     <option value="gmQuote">GM Quote</option>
   </select>
 
   <button onclick="generateMessage()">Generate Message</button>
-
-  <input type="text" id="output" readonly>
+<br>
+  <textarea id="output" readonly></textarea><br>
   <button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+  <a href="https://twitter.com/search?q=%24tip&src=typed_query&f=live" target="_blank">
+    <button>Search $Tip Posts</button>
+  </a>
 
   <script>
     function generateMessage() {
@@ -29,7 +146,17 @@
         const genericMessages = [
           "Love it! Thanks for sharing $tip @tipcoineth",
           "Ty ser $tip @tipcoineth",
-          "lets gooo $tip @tipcoineth"
+          "lets gooo $tip @tipcoineth",
+          "Positive vibes all around! $tip @tipcoineth",
+          "You're amazing! Keep shining $tip @tipcoineth",
+          "Spread love and positivity with $tip @tipcoineth",
+          "Keep up the good work! $tip @tipcoineth",
+          "Embrace each day with a smile! $tip @tipcoineth",
+          "Sending virtual hugs and $tip your way @tipcoineth",
+          "Dream big and make it happen! $tip @tipcoineth",
+          "Life is beautiful, just like you! $tip @tipcoineth",
+          "Keep being awesome! $tip @tipcoineth",
+          "You've got this! Keep rocking with $tip @tipcoineth"
         ];
         const randomIndex = Math.floor(Math.random() * genericMessages.length);
         const message = genericMessages[randomIndex];
@@ -50,6 +177,36 @@
       outputElement.select();
       document.execCommand("copy");
       alert("Copied to clipboard!");
+    }
+  </script>
+
+   <!-- ... Previous HTML Content ... -->
+
+  <button id="supportMakerBtn" onclick="openModal()">$TIP the maker</button>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p>Support the maker, send a tip to<br><br><strong>FrogFrens.eth</strong></p>
+      <p>(ETH or NFTs accepted)</p>
+    </div>
+  </div>
+
+  <script>
+    // ... Previous JavaScript ...
+
+    function openModal() {
+      document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("myModal")) {
+        closeModal();
+      }
     }
   </script>
 </body>
