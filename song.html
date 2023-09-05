@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Song Quiz Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+  }
+  .container {
+    margin: 20px auto;
+    max-width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button.correct {
+    background-color: #4caf50;
+    color: white;
+  }
+  button.skip {
+    background-color: #f44336;
+    color: white;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Song Quiz Game</h1>
+  <p id="timer">Total Time: 3 mins</p>
+  <p id="question">Guess the Song and Singer</p>
+  <button id="start">Start</button>
+  <button style="display:none" id="correct" class="correct">Correct</button>
+  <button style="display:none" id="skip" class="skip">Skip</button>
+  <p id="result"></p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const popularSongs = [
+  "Rolling in the Deep - Adele",
+  "Shape of You - Ed Sheeran",
+  "Crazy in Love - Beyoncé",
+  "Yeah! - Usher",
+  "Umbrella - Rihanna",
+  "Lose Yourself - Eminem",
+  "Can't Stop the Feeling! - Justin Timberlake",
+  "Fallin' - Alicia Keys",
+  "Viva la Vida - Coldplay",
+  "...Baby One More Time - Britney Spears",
+  "Moves Like Jagger - Maroon 5",
+  "Love Story - Taylor Swift",
+  "Firework - Katy Perry",
+  "Poker Face - Lady Gaga",
+  "I Gotta Feeling - Black Eyed Peas",
+  "Uptown Funk - Bruno Mars",
+  "One Dance - Drake",
+  "Closer - The Chainsmokers",
+  "Despacito - Luis Fonsi, Daddy Yankee",
+  "Circles - Post Malone",
+  "Bad Guy - Billie Eilish",
+  "New Rules - Dua Lipa",
+  "Bodak Yellow - Cardi B",
+  "Cheap Thrills - Sia",
+  "Radioactive - Imagine Dragons",
+  "Thank U, Next - Ariana Grande",
+  "Stitches - Shawn Mendes",
+  "All of Me - John Legend",
+  "Uptown Funk - Mark Ronson, Bruno Mars",
+  "Location - Khalid",
+  "We Found Love - Rihanna",
+  "Roar - Katy Perry",
+  "Hello - Adele",
+  "Hips Don't Lie - Shakira",
+  "Thinking Out Loud - Ed Sheeran",
+  "Just the Way You Are - Bruno Mars",
+  "Sorry - Justin Bieber",
+  "Thrift Shop - Macklemore & Ryan Lewis",
+  "7 Rings - Ariana Grande",
+  "Havana - Camila Cabello",
+  "Mirrors - Justin Timberlake",
+  "Blank Space - Taylor Swift",
+  "Without Me - Halsey",
+  "Blinding Lights - The Weeknd",
+  "God's Plan - Drake",
+  "Truth Hurts - Lizzo",
+  "Someone Like You - Adele",
+  "The Real Slim Shady - Eminem",
+  "Diamonds - Rihanna",
+  "Sugar - Maroon 5",
+  "This Is What You Came For - Calvin Harris",
+  "Stay with Me - Sam Smith",
+  "Set Fire to the Rain - Adele",
+  "Shake It Off - Taylor Swift",
+  "Party Rock Anthem - LMFAO",
+  "See You Again - Wiz Khalifa",
+  "Despacito (Remix) - Luis Fonsi, Daddy Yankee",
+  "Break Free - Ariana Grande",
+  "Dark Horse - Katy Perry",
+  "Can't Hold Us - Macklemore & Ryan Lewis",
+  "Rockstar - Post Malone",
+  "Don't Let Me Down - The Chainsmokers",
+  "Perfect - Ed Sheeran",
+  "That's What I Like - Bruno Mars",
+  "Single Ladies - Beyoncé",
+  "Only Girl (In The World) - Rihanna",
+  "Believer - Imagine Dragons",
+  "I Knew You Were Trouble - Taylor Swift",
+  "Señorita - Shawn Mendes",
+  "Ocean Eyes - Billie Eilish",
+  "Hotline Bling - Drake",
+  "Stressed Out - Twenty One Pilots",
+  "Attention - Charlie Puth",
+  "Take Me to Church - Hozier",
+  "Problem - Ariana Grande",
+  "Don't Start Now - Dua Lipa",
+  "Grenade - Bruno Mars",
+  "Castle on the Hill - Ed Sheeran",
+  "Señorita - Camila Cabello",
+  "Work - Rihanna",
+  "U Remind Me - Usher",
+  "Wake Me Up - Avicii",
+  "Send My Love (To Your New Lover) - Adele",
+  "Chandelier - Sia",
+  "SexyBack - Justin Timberlake",
+  "Bad Blood - Taylor Swift",
+  "In My Feelings - Drake",
+  "California Gurls - Katy Perry",
+  "Side to Side - Ariana Grande",
+  "Sunflower - Post Malone",
+  "I'm Not The Only One - Sam Smith",
+  "Locked Out of Heaven - Bruno Mars",
+  "Sorry Not Sorry - Demi Lovato",
+  "Good as Hell - Lizzo",
+  "Counting Stars - OneRepublic",
+  "Bad at Love - Halsey",
+  "Clocks - Coldplay",
+  "Halo - Beyoncé",
+  "Hot in Herre - Nelly",
+  "Stan - Eminem",
+  "I Don't Care - Ed Sheeran",
+  // ... add more songs
+];
+
+
+  const timerElement = document.getElementById('timer');
+  const questionElement = document.getElementById('question');
+  const startButton = document.getElementById('start');
+  const correctButton = document.getElementById('correct');
+  const skipButton = document.getElementById('skip');
+  const resultElement = document.getElementById('result');
+
+  let timer;
+  let currentTime = 180; // 3 minutes in seconds
+  let currentSong = '';
+  let score = {
+    correct: 0,
+    skipped: 0,
+  };
+
+  function updateTimer() {
+    currentTime--;
+    const minutes = Math.floor(currentTime / 60);
+    const seconds = currentTime % 60;
+    timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    if (currentTime === 0) {
+      clearInterval(timer);
+      showScore();
+    }
+  }
+
+  function getRandomSong() {
+    const randomIndex = Math.floor(Math.random() * popularSongs.length);
+    return popularSongs[randomIndex];
+  }
+
+  function showResult() {
+    const [song, singer] = currentSong.split(' - ');
+
+    questionElement.textContent = `Song: ${song}, Singer: ${singer}`;
+    correctButton.disabled = true;
+    skipButton.disabled = true;
+
+    resultElement.textContent = 'Time\'s up!';
+  }
+
+  function displayNextSong() {
+    currentSong = getRandomSong();
+    const [song, singer] = currentSong.split(' - ');
+
+    questionElement.textContent = `Song: ${song}, Singer: ${singer}`;
+    correctButton.disabled = false;
+    skipButton.disabled = false;
+
+    resultElement.textContent = '';
+  }
+
+  function showScore() {
+    questionElement.textContent = 'Game Over';
+    correctButton.style.display = 'none';
+    skipButton.style.display = 'none';
+    resultElement.textContent = `Score: Correct - ${score.correct}, Skipped - ${score.skipped}`;
+  }
+
+  startButton.addEventListener('click', function() {
+    displayNextSong();
+    startButton.style.display = 'none';
+    skipButton.style.display = 'block';
+    correctButton.style.display = 'block';
+    timer = setInterval(updateTimer, 1000);
+  });
+
+  correctButton.addEventListener('click', function() {
+    score.correct++;
+    showResult();
+    resultElement.textContent = 'Correct!';
+    resultElement.style.color = 'green';
+    displayNextSong();
+  });
+
+  skipButton.addEventListener('click', function() {
+    score.skipped++;
+    showResult();
+    resultElement.textContent = 'Skipped';
+    resultElement.style.color = 'red';
+    displayNextSong();
+  });
+});
+</script>
+</body>
+</html>
+ 
